@@ -5,6 +5,9 @@ import shortenRoute from "./routes/shorten.js";
 import statsRoute from "./routes/stats.js";
 import linksRoute from "./routes/links.js";
 import Link from "./models/Link.js";
+import dotenv from "dotenv";
+dotenv.config();
+
 
 const app = express();
 
