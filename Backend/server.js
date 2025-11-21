@@ -33,6 +33,6 @@ app.get("/:code", async (req, res) => {
 });
 
 // Start server
-app.listen(3000, () => 
+app.listen(process.env.PORT, () => 
     console.log("Server running on Port 3000")
 );
