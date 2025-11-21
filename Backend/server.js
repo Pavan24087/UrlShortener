@@ -12,12 +12,7 @@ const app = express();
 connectDB();
 
 // Middleware
-// app.use(cors());
-app.use(cors({
-  origin: ["http://localhost:5173", "https://your-frontend-domain.com"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type"]
-}));
+app.use(cors());
 app.use(express.json());
 
 // API routes
