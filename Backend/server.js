@@ -1,3 +1,52 @@
+// import express from "express";
+// import cors from "cors";
+// import connectDB from "./config/db.js";
+// import shortenRoute from "./routes/shorten.js";
+// import statsRoute from "./routes/stats.js";
+// import linksRoute from "./routes/links.js";
+// import Link from "./models/Link.js";
+// import dotenv from "dotenv";
+// dotenv.config();
+
+
+// const app = express();
+
+// // Connect DB
+// connectDB();
+// // connectDatabase();
+
+// // Middleware
+// app.use(cors());
+// app.use(express.json());
+
+// // API routes
+// app.use("/api/shorten", shortenRoute);
+// app.use("/api/stats", statsRoute);
+// app.use("/api/links", linksRoute);
+
+// // Redirect route
+// app.get("/:code", async (req, res) => {
+//   const link = await Link.findOne({ shortCode: req.params.code });
+
+//   if (!link) return res.status(404).send("Short URL not found");
+
+//   link.clicks++;
+//   await link.save();
+
+//   res.redirect(link.originalUrl);
+// });
+
+// // Start server
+// const PORT = process.env.PORT || 3000
+// app.listen(process.env.PORT, () => 
+//     console.log("Server running on Port 3000")
+// );
+
+
+
+
+
+
 import express from "express";
 import cors from "cors";
 import connectDB from "./config/db.js";
@@ -8,15 +57,18 @@ import Link from "./models/Link.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-
 const app = express();
 
 // Connect DB
 connectDB();
-// connectDatabase();
 
-// Middleware
-app.use(cors());
+// CORS FIX
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
+}));
+
 app.use(express.json());
 
 // API routes
@@ -26,18 +78,23 @@ app.use("/api/links", linksRoute);
 
 // Redirect route
 app.get("/:code", async (req, res) => {
-  const link = await Link.findOne({ shortCode: req.params.code });
+  try {
+    const link = await Link.findOne({ shortCode: req.params.code });
 
-  if (!link) return res.status(404).send("Short URL not found");
+    if (!link) return res.status(404).send("Short URL not found");
 
-  link.clicks++;
-  await link.save();
+    link.clicks++;
+    await link.save();
 
-  res.redirect(link.originalUrl);
+    res.redirect(link.originalUrl);
+  } catch (err) {
+    res.status(500).send("Server Error");
+  }
 });
 
-// Start server
-const PORT = process.env.PORT || 3000
-app.listen(process.env.PORT, () => 
-    console.log("Server running on Port 3000")
+// Start Server
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () =>
+  console.log(`Server running on Port ${PORT}`)
 );
