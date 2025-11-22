@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import connectDB from "./config/db.js";
+import connectDatabase from "./config/db.js";
 import shortenRoute from "./routes/shorten.js";
 import statsRoute from "./routes/stats.js";
 import linksRoute from "./routes/links.js";
@@ -12,7 +12,8 @@ dotenv.config();
 const app = express();
 
 // Connect DB
-connectDB();
+// connectDB();
+connectDatabase();
 
 // Middleware
 app.use(cors());
