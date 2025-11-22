@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import connectDatabase from "./config/db.js";
+import connectDB from "./config/db.js";
 import shortenRoute from "./routes/shorten.js";
 import statsRoute from "./routes/stats.js";
 import linksRoute from "./routes/links.js";
@@ -12,8 +12,8 @@ dotenv.config();
 const app = express();
 
 // Connect DB
-// connectDB();
-connectDatabase();
+connectDB();
+// connectDatabase();
 
 // Middleware
 app.use(cors());
@@ -37,6 +37,7 @@ app.get("/:code", async (req, res) => {
 });
 
 // Start server
+const PORT = process.env.PORT || 3000
 app.listen(process.env.PORT, () => 
     console.log("Server running on Port 3000")
 );
